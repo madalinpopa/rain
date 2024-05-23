@@ -75,7 +75,10 @@ func unmarshalForecasts(body []byte) (Forecasts, error) {
 func FetchCityData(apiKey, location string) ([]City, error) {
 
 	baseUrl := "https://api.openweathermap.org/geo/1.0/direct?"
-	url := fmt.Sprintf("%sq=%s&limit=1&appid=%s", baseUrl, location, apiKey)
+	url := fmt.Sprintf(
+		"%sq=%s&limit=1&appid=%s",
+		baseUrl, location, apiKey,
+	)
 
 	respBody, err := makeGetRequest(url)
 	if err != nil {
@@ -97,7 +100,10 @@ func FetchCityData(apiKey, location string) ([]City, error) {
 func FetchWeatherData(apiKey, lat, lon string) (Forecasts, error) {
 
 	baseUrl := "https://api.openweathermap.org/data/3.0/onecall?"
-	url := fmt.Sprintf("%slat=%s&lon=%s&units=metric&lang=ro&appid=%s", baseUrl, lat, lon, apiKey)
+	url := fmt.Sprintf(
+		"%slat=%s&lon=%s&units=metric&lang=ro&appid=%s",
+		baseUrl, lat, lon, apiKey,
+	)
 
 	respBody, err := makeGetRequest(url)
 	if err != nil {

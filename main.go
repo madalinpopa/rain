@@ -22,7 +22,9 @@ func getLocation(location, apiKey string) (weather.City, error) {
 
 // getWeather retrieves the weather data
 func getWeather(city weather.City, apiKey string) (weather.Forecasts, error) {
-	weatherData, err := weather.FetchWeatherData(apiKey, fmt.Sprintf("%f", city.Lat), fmt.Sprintf("%f", city.Lon))
+	weatherData, err := weather.FetchWeatherData(
+		apiKey, fmt.Sprintf("%f", city.Lat), fmt.Sprintf("%f", city.Lon),
+	)
 	if err != nil {
 		return weather.Forecasts{}, err
 	}
@@ -55,7 +57,14 @@ func main() {
 		if date.Before(time.Now()) || date.After(time.Now().Add(12*time.Hour)) {
 			continue
 		}
-		message := fmt.Sprintf("%s - Temp: %.0fC, Feels like: %.0fC, Chances to rain: %.0f%% - %s\n", date.Format("15:04"), h.Temp, h.FeelsLike, h.Pop*100, h.Weather[0].Description)
+		message := fmt.Sprintf(
+			"%s - Temp: %.0fC, Feels like: %.0fC, Chances to rain: %.0f%% - %s\n",
+			date.Format("15:04"),
+			h.Temp,
+			h.FeelsLike,
+			h.Pop*100,
+			h.Weather[0].Description,
+		)
 
 		// If the temperature is lower than 20 degrees, print the message in blue
 		if h.Temp < 20 {
