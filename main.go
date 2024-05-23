@@ -41,6 +41,9 @@ func main() {
 	}
 
 	weather, err := getWeather(city, apiKey)
+	if err != nil {
+		log.Fatalf("Error getting weather: %v", err)
+	}
 
 	fmt.Println(weather, err)
 
