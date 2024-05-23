@@ -21,7 +21,7 @@ func getLocation(location, apiKey string) (weather.City, error) {
 }
 
 // getWeather retrieves the weather data
-func getWeather(city weather.City, apiKey string) (weather.Forecasts, error) {
+func getWeather(city *weather.City, apiKey string) (weather.Forecasts, error) {
 	weatherData, err := weather.FetchWeatherData(
 		apiKey, fmt.Sprintf("%f", city.Lat), fmt.Sprintf("%f", city.Lon),
 	)
@@ -45,7 +45,7 @@ func main() {
 		log.Fatalf("Error getting location: %v", err)
 	}
 
-	weather, err := getWeather(city, apiKey)
+	weather, err := getWeather(&city, apiKey)
 	if err != nil {
 		log.Fatalf("Error getting weather: %v", err)
 	}
