@@ -54,6 +54,10 @@ func makeGetRequest(url string) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("received non-OK HTTP status: %d", resp.StatusCode)
+	}
+
 	return io.ReadAll(resp.Body)
 }
 
