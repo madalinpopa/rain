@@ -27,22 +27,16 @@ func getApiEnv(envName string) (string, error) {
 
 func fetchCityData(apiKey, location string) ([]City, error) {
 
-	baseUrl := "http://api.openweathermap.org/geo/1.0/direct?"
+	baseUrl := "https://api.openweathermap.org/geo/1.0/direct?"
 	url := fmt.Sprintf("%sq=%s&limit=1&appid=%s", baseUrl, location, apiKey)
 
-	resp, err := http.Get(url)
+	respBody, err := makeGetRequest(url)
 	if err != nil {
 		return nil, fmt.Errorf("failed to make GET request: %w", err)
 	}
-	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
+	cities, err := unmarshalCities(respBody)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read response body: %w", err)
-	}
-
-	var cities []City
-	if err := json.Unmarshal(body, &cities); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal JSON: %w", err)
 	}
 
@@ -51,6 +45,24 @@ func fetchCityData(apiKey, location string) ([]City, error) {
 	}
 	return cities, nil
 
+}
+
+func makeGetRequest(url string) ([]byte, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	return io.ReadAll(resp.Body)
+}
+
+func unmarshalCities(body []byte) ([]City, error) {
+	var cities []City
+	if err := json.Unmarshal(body, &cities); err != nil {
+		return nil, err
+	}
+	return cities, nil
 }
 
 // getLocation retrieves the location data
