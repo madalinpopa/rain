@@ -58,7 +58,7 @@ func main() {
 			continue
 		}
 		message := fmt.Sprintf(
-			"%s - Temp: %.0fC, Feels like: %.0fC, Chances to rain: %.0f%% - %s\n",
+			"%s - Temp: %.0fC, Feels like: %.0fC, Chances to rain: %0.f%% - %s\n",
 			date.Format("15:04"),
 			h.Temp,
 			h.FeelsLike,
